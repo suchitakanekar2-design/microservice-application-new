@@ -1,0 +1,43 @@
+trigger:
+- main
+
+pool: Linux-Agent
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        backendAzureRmOverrideSubscriptionID: 'a5aaa5ad-6e93-46b9-a1d8-b3f7d19bf107'
+        backendAzureRmResourceGroupName: 'microservice-rg'
+        backendAzureRmStorageAccountName: 'microdevinfrastorage456'
+        backendAzureRmContainerName: 'dev-container'
+        backendAzureRmKey: 'dev.tfstate'
+stages:
+- stage: terraform Validate
+  jobs:
+  - job: ValidateJob
+    steps:
+    - task: TerraformTask@5
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+stages:
+- stage: terraform plan
+  jobs:
+  - job: planJob
+    steps:
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+
+
