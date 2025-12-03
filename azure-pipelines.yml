@@ -18,7 +18,7 @@ stages:
         backendAzureRmContainerName: 'dev-container'
         backendAzureRmKey: 'dev.tfstate'
 
-- stage: terraform Validate
+
   jobs:
   - job: ValidateJob
     steps:
@@ -29,7 +29,7 @@ stages:
         command: 'validate'
         workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
 
-- stage: terraform plan
+
   jobs:
   - job: planJob
     steps:
