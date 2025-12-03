@@ -1,12 +1,11 @@
-trigger:
-- main
+trigger: none
 
 pool: Linux-Agent
 
 stages:
-- stage: Build
+- stage: terraform init
   jobs:
-  - job: BuildJob
+  - job: InitJob
     steps:
     - task: TerraformTask@5
       inputs:
@@ -18,7 +17,7 @@ stages:
         backendAzureRmStorageAccountName: 'microdevinfrastorage456'
         backendAzureRmContainerName: 'dev-container'
         backendAzureRmKey: 'dev.tfstate'
-stages:
+
 - stage: terraform Validate
   jobs:
   - job: ValidateJob
@@ -29,7 +28,7 @@ stages:
         provider: 'azurerm'
         command: 'validate'
         workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
-stages:
+
 - stage: terraform plan
   jobs:
   - job: planJob
