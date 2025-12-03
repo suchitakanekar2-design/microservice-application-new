@@ -28,6 +28,7 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        backendServiceArm: 'linux-SVC'
         backendAzureRmOverrideSubscriptionID: 'a5aaa5ad-6e93-46b9-a1d8-b3f7d19bf107'
         backendAzureRmResourceGroupName: 'microservice-rg'
         backendAzureRmStorageAccountName: 'microdevinfrastorage456'
@@ -44,9 +45,23 @@ stages:
   jobs:
   - job: ValidateJob
     steps:
+    
     - task: TerraformInstaller@1
       inputs:
         terraformVersion: 'latest'
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        backendServiceArm: 'linux-SVC'
+        backendAzureRmOverrideSubscriptionID: 'a5aaa5ad-6e93-46b9-a1d8-b3f7d19bf107'
+        backendAzureRmResourceGroupName: 'microservice-rg'
+        backendAzureRmStorageAccountName: 'microdevinfrastorage456'
+        backendAzureRmContainerName: 'dev-container'
+        backendAzureRmKey: 'dev.tfstate'
+    
+        
     - task: TerraformTask@5
       inputs:
         provider: 'azurerm'
@@ -66,6 +81,18 @@ stages:
     - task: TerraformInstaller@1
       inputs:
         terraformVersion: 'latest'
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        backendServiceArm: 'linux-SVC'
+        backendAzureRmOverrideSubscriptionID: 'a5aaa5ad-6e93-46b9-a1d8-b3f7d19bf107'
+        backendAzureRmResourceGroupName: 'microservice-rg'
+        backendAzureRmStorageAccountName: 'microdevinfrastorage456'
+        backendAzureRmContainerName: 'dev-container'
+        backendAzureRmKey: 'dev.tfstate'
+    
     - task: TerraformTask@5
       inputs:
         provider: 'azurerm'
