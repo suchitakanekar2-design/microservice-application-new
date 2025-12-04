@@ -98,3 +98,4 @@ stages:
         provider: 'azurerm'
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        environmentServiceNameAzureRM: 'linux-SVC'
