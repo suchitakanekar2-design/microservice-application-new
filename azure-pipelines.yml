@@ -14,11 +14,6 @@ stages:
   jobs:
   - job: InitJob
     steps:
-    - script: |
-        sudo apt-get update
-        sudo apt-get install unzip -y
-      displayName: "Install unzip"
-
     - task: TerraformInstaller@1
       inputs:
         terraformVersion: 'latest'
