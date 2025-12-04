@@ -1,7 +1,7 @@
 trigger: 
 - main
 
-pool: Linux-Agent
+pool: windows-agent
 
 stages:
 
