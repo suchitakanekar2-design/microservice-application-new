@@ -73,6 +73,7 @@ stages:
 # PLAN STAGE
 # -----------------------------
 - stage: TerraformPlan
+  pool: Linux-Agent
   displayName: 'Terraform Plan'
   dependsOn: TerraformValidate
   jobs:
