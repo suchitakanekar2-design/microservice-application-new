@@ -17,18 +17,18 @@ module "vnet" {
   vnet_details = var.vnet_details
 }
 
-module "pip" {
-  depends_on  = [module.rg]
-  source      = "../../Modules/azurerm_public_ip"
-  pip_details = var.pip_details
-}
+# module "pip" {
+#   depends_on  = [module.rg]
+#   source      = "../../Modules/azurerm_public_ip"
+#   pip_details = var.pip_details
+# }
 
-module "virtual_machine" {
-  depends_on = [module.rg]
-  source     = "../../Modules/azurerm_virtual_machine"
-  vms        = var.vms
+# module "virtual_machine" {
+#   depends_on = [module.rg]
+#   source     = "../../Modules/azurerm_virtual_machine"
+#   vms        = var.vms
 
-}
+# }
 
 
 module "azure_conatiner_registry" {
@@ -48,6 +48,13 @@ module "azure_db_server" {
   source           = "../../Modules/azurerm_sql_server"
   dbserver_details = var.dbserver_details
 
+}
+
+module "azure_db" {
+  depends_on = [ module.rg ]
+  source = "../../Modules/azurerm_sql_database"
+  db_details = var.db_details
+  
 }
 
 module "azure_keyvault" {

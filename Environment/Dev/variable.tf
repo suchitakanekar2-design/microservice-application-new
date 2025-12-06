@@ -33,31 +33,31 @@ variable "vnet_details" {
   }))
 }
 
-variable "pip_details" {
-  type = map(object({
-    pip_name            = string
-    location            = string
-    resource_group_name = string
-    tags                = optional(map(string))
+# variable "pip_details" {
+#   type = map(object({
+#     pip_name            = string
+#     location            = string
+#     resource_group_name = string
+#     tags                = optional(map(string))
 
-  }))
-}
+#   }))
+# }
 
-variable "vms" {
-  type = map(object({
-    nic_name            = string
-    nic_location        = string
-    resource_group_name = string
-    vm_name             = string
-    location            = string
-    size                = string
-    admin_username      = string
-    admin_password      = string
-    pip_name            = string
-    vnet_name           = string
-    subnet_name         = string
-  }))
-}
+# variable "vms" {
+#   type = map(object({
+#     nic_name            = string
+#     nic_location        = string
+#     resource_group_name = string
+#     vm_name             = string
+#     location            = string
+#     size                = string
+#     admin_username      = string
+#     admin_password      = string
+#     pip_name            = string
+#     vnet_name           = string
+#     subnet_name         = string
+#   }))
+# }
 
 variable "key_vaults" {
   description = "Map of Key Vault configurations"
@@ -111,6 +111,19 @@ variable "aks_details" {
   }))
 }
 
+variable "db_details" {
+  type = map(object({
+    name            = string
+    server_id       = string
+    collation       = string
+    license_type    = string
+    max_size_gb     = number
+    sku_name        = string
+    enclave_type    = string
+    tags            = map(string)
+    prevent_destroy = bool
+  }))
+}
 
 variable "dbserver_details" {
   type = map(object({
