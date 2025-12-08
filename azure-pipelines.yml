@@ -1,0 +1,97 @@
+trigger: 
+- main
+
+pool: windows-agent
+
+stages:
+
+
+# -----------------------------
+# INIT STAGE
+# -----------------------------
+- stage: TerraformInit
+  displayName: 'Terraform Init'
+  jobs:
+  - job: InitJob
+    steps:
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        backendServiceArm: 'linux-SVC'
+        backendAzureRmOverrideSubscriptionID: 'a5aaa5ad-6e93-46b9-a1d8-b3f7d19bf107'
+        backendAzureRmResourceGroupName: 'microservice-rg'
+        backendAzureRmStorageAccountName: 'microdevinfrastorage456'
+        backendAzureRmContainerName: 'dev-container'
+        backendAzureRmKey: 'dev.tfstate'
+
+
+# -----------------------------
+# VALIDATE STAGE
+# -----------------------------
+- stage: TerraformValidate
+  displayName: 'Terraform Validate'
+  dependsOn: TerraformInit
+  jobs:
+  - job: ValidateJob
+    steps:
+    
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        backendServiceArm: 'linux-SVC'
+        backendAzureRmOverrideSubscriptionID: 'a5aaa5ad-6e93-46b9-a1d8-b3f7d19bf107'
+        backendAzureRmResourceGroupName: 'microservice-rg'
+        backendAzureRmStorageAccountName: 'microdevinfrastorage456'
+        backendAzureRmContainerName: 'dev-container'
+        backendAzureRmKey: 'dev.tfstate'
+    
+        
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+
+
+# -----------------------------
+# PLAN STAGE
+# -----------------------------
+- stage: TerraformPlan
+  pool: Linux-Agent
+  displayName: 'Terraform Plan'
+  dependsOn: TerraformValidate
+  jobs:
+  - job: PlanJob
+    steps:
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        backendServiceArm: 'linux-SVC'
+        backendAzureRmOverrideSubscriptionID: 'a5aaa5ad-6e93-46b9-a1d8-b3f7d19bf107'
+        backendAzureRmResourceGroupName: 'microservice-rg'
+        backendAzureRmStorageAccountName: 'microdevinfrastorage456'
+        backendAzureRmContainerName: 'dev-container'
+        backendAzureRmKey: 'dev.tfstate'
+    
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+        environmentServiceNameAzureRM: 'linux-SVC'
